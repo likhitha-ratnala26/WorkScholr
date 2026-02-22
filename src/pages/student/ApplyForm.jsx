@@ -17,6 +17,7 @@ const ApplyForm = () => {
     email: "",
     gender: "",
     address: "",
+    dateOfBirth: "", // ✅ ADDED FIELD
   });
 
   const [error, setError] = useState("");
@@ -34,6 +35,8 @@ const ApplyForm = () => {
     if (!form.gender) return "Select gender";
 
     if (!form.address) return "Address required";
+
+    if (!form.dateOfBirth) return "Date of Birth required"; // ✅ ADDED VALIDATION
 
     return "";
   };
@@ -93,6 +96,15 @@ const ApplyForm = () => {
           placeholder="Email"
           onChange={(e) =>
             setForm({ ...form, email: e.target.value })
+          }
+        />
+
+        {/* ✅ NEW DATE OF BIRTH FIELD */}
+        <input
+          type="date"
+          className="form-control mb-2"
+          onChange={(e) =>
+            setForm({ ...form, dateOfBirth: e.target.value })
           }
         />
 
