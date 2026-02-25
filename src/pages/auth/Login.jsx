@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
   const [error, setError] = useState("");
@@ -14,18 +14,14 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (username.length < 4) {
-      setError("Username must be at least 4 characters.");
-      return;
-    }
+    const result = login(email, password, role);
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
+    if (!result.success) {
+      setError(result.message);
       return;
     }
 
     setError("");
-    login(role);
 
     if (role === "admin") {
       navigate("/admin/dashboard");
@@ -38,26 +34,16 @@ function Login() {
     <div className="container-fluid vh-100">
       <div className="row h-100">
 
-        {/* LEFT SIDE - LOGO */}
         <div className="col-md-6 d-flex flex-column justify-content-center align-items-center bg-primary text-white">
-          <img
-            src="/logo.png.png"   // <-- Put your logo in public folder
-            alt="WorkScholr Logo"
-            style={{ width: "200px" }}
-            className="mb-4"
-          />
           <h2>Welcome to WorkScholr</h2>
-          <p className="text-center px-4">
-            Bridging Academics and Experience
-          </p>
         </div>
 
-        {/* RIGHT SIDE - LOGIN FORM */}
         <div className="col-md-6 d-flex justify-content-center align-items-center">
           <div style={{ width: "80%", maxWidth: "400px" }}>
             <h3 className="mb-4 text-center">Login</h3>
 
             <form onSubmit={handleSubmit}>
+
               <select
                 className="form-select mb-3"
                 value={role}
@@ -68,11 +54,12 @@ function Login() {
               </select>
 
               <input
-                type="text"
+                type="email"
                 className="form-control mb-3"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
 
               <input
@@ -81,14 +68,27 @@ function Login() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
 
-              <button className="btn btn-primary w-100">
+              <button type="submit" className="btn btn-primary w-100">
                 Login
               </button>
+
+              <button
+                type="button"
+                className="btn btn-outline-secondary w-100 mt-2"
+                onClick={() => navigate("/register")}
+              >
+                Register
+              </button>
+
             </form>
 
-            {error && <p className="text-danger mt-3 text-center">{error}</p>}
+            {error && (
+              <p className="text-danger mt-3 text-center">{error}</p>
+            )}
+
           </div>
         </div>
 

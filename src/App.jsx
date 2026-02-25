@@ -1,12 +1,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { ApplicationProvider } from "./context/ApplicationContext";
-import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 
 // Auth
 import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 
 // Student Pages
 import StudentDashboard from "./pages/student/Dashboard";
@@ -24,134 +23,136 @@ import JobsList from "./pages/admin/JobsList";
 
 function App() {
   return (
-    <AuthProvider>
-      <ApplicationProvider>
-        <div className="min-vh-100">
+    <div className="min-vh-100">
+      <Routes>
 
-          <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-            {/* LOGIN PAGE (NO NAVBAR) */}
-            <Route path="/" element={<Login />} />
+        {/* STUDENT ROUTES */}
+        <Route
+          path="/student/dashboard"
+          element={
+            <ProtectedRoute role="student">
+              <>
+                <Navbar />
+                <StudentDashboard />
+              </>
+            </ProtectedRoute>
+          }
+        />
 
-            {/* STUDENT ROUTES */}
-            <Route
-              path="/student/dashboard"
-              element={
-                <ProtectedRoute role="student">
-                  <>
-                    <Navbar />
-                    <StudentDashboard />
-                  </>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/student/jobs"
-              element={
-                <ProtectedRoute role="student">
-                  <>
-                    <Navbar />
-                    <Jobs />
-                  </>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/student/apply"
-              element={
-                <ProtectedRoute role="student">
-                  <>
-                    <Navbar />
-                    <ApplyForm />
-                  </>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/student/applications"
-              element={
-                <ProtectedRoute role="student">
-                  <>
-                    <Navbar />
-                    <StudentApplications />
-                  </>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/student/feedbacks"
-              element={
-                <ProtectedRoute role="student">
-                  <>
-                    <Navbar />
-                    <StudentFeedbacks />
-                  </>
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/student/jobs"
+          element={
+            <ProtectedRoute role="student">
+              <>
+                <Navbar />
+                <Jobs />
+              </>
+            </ProtectedRoute>
+          }
+        />
 
-            {/* ADMIN ROUTES */}
-            <Route
-              path="/admin/dashboard"
-              element={
-                <ProtectedRoute role="admin">
-                  <>
-                    <Navbar />
-                    <AdminDashboard />
-                  </>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/post-job"
-              element={
-                <ProtectedRoute role="admin">
-                  <>
-                    <Navbar />
-                    <PostJob />
-                  </>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/applications"
-              element={
-                <ProtectedRoute role="admin">
-                  <>
-                    <Navbar />
-                    <AdminApplications />
-                  </>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/feedbacks"
-              element={
-                <ProtectedRoute role="admin">
-                  <>
-                    <Navbar />
-                    <AdminFeedbacks />
-                  </>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/jobs"
-              element={
-                <ProtectedRoute role="admin">
-                  <>
-                    <Navbar />
-                    <JobsList />
-                  </>
-                </ProtectedRoute>
-              }
-            />
+        <Route
+          path="/student/apply"
+          element={
+            <ProtectedRoute role="student">
+              <>
+                <Navbar />
+                <ApplyForm />
+              </>
+            </ProtectedRoute>
+          }
+        />
 
-          </Routes>
+        <Route
+          path="/student/applications"
+          element={
+            <ProtectedRoute role="student">
+              <>
+                <Navbar />
+                <StudentApplications />
+              </>
+            </ProtectedRoute>
+          }
+        />
 
-        </div>
-      </ApplicationProvider>
-    </AuthProvider>
+        <Route
+          path="/student/feedbacks"
+          element={
+            <ProtectedRoute role="student">
+              <>
+                <Navbar />
+                <StudentFeedbacks />
+              </>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ADMIN ROUTES */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute role="admin">
+              <>
+                <Navbar />
+                <AdminDashboard />
+              </>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/post-job"
+          element={
+            <ProtectedRoute role="admin">
+              <>
+                <Navbar />
+                <PostJob />
+              </>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/applications"
+          element={
+            <ProtectedRoute role="admin">
+              <>
+                <Navbar />
+                <AdminApplications />
+              </>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/feedbacks"
+          element={
+            <ProtectedRoute role="admin">
+              <>
+                <Navbar />
+                <AdminFeedbacks />
+              </>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/jobs"
+          element={
+            <ProtectedRoute role="admin">
+              <>
+                <Navbar />
+                <JobsList />
+              </>
+            </ProtectedRoute>
+          }
+        />
+
+      </Routes>
+    </div>
   );
 }
 
